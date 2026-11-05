@@ -1,0 +1,91 @@
+/* 插件级样式（卡片本身画在画布上，这里只处理设置页和画布悬浮窗的小细节） */
+.excalidraw-coach-setting-desc {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* ---------------- 画布悬浮窗 ---------------- */
+/* position: fixed 是相对窗口定位的，不会被画布的缩放/平移带着跑 */
+.coach-floatbar {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  border-radius: 10px;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+  opacity: 0.94;
+  transition: opacity 0.15s ease;
+  pointer-events: auto;
+}
+
+.coach-floatbar:hover {
+  opacity: 1;
+}
+
+.coach-floatbar.is-dragging {
+  opacity: 1;
+  cursor: grabbing;
+}
+
+.coach-fb-handle {
+  padding: 0 4px;
+  color: var(--text-faint);
+  cursor: grab;
+  font-size: 13px;
+  letter-spacing: -1px;
+  touch-action: none;
+}
+
+.coach-fb-btn,
+.coach-fb-gear,
+.coach-fb-flip {
+  appearance: none;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.coach-fb-btn:hover,
+.coach-fb-gear:hover,
+.coach-fb-flip:hover {
+  background: var(--background-modifier-hover);
+  border-color: var(--interactive-accent);
+}
+
+.coach-fb-btn:active,
+.coach-fb-gear:active,
+.coach-fb-flip:active {
+  transform: translateY(1px);
+}
+
+.coach-fb-gear {
+  border-left: 1px solid var(--background-modifier-border);
+  margin-left: 2px;
+  color: var(--text-muted);
+}
+/* 翻译按钮后面的「⇄」：点击换方向，所以做得比按钮小一号 */
+.coach-fb-flip {
+  margin-left: -2px;
+  padding: 6px 7px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.coach-fb-flip:hover {
+  color: var(--text-normal);
+}

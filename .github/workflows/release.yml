@@ -1,0 +1,57 @@
+name: Release
+
+# 推送形如 0.1.2 的 tag 时自动打包发布：
+#   git tag 0.1.2 && git push origin 0.1.2
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 构建（零依赖，不需要 npm install）
+        run: node dev/build.mjs
+
+      - name: 单测 + 冒烟
+        run: |
+          node dev/test.mjs
+          node dev/smoke.mjs
+
+      - name: 校验 tag 与 manifest 版本一致
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          ver=$(node -p "require('./manifest.json').version')
+          echo "tag=$tag manifest=$ver"
+          if [ "$tag" != "$ver" ]; then
+            echo "::error::tag($tag) 和 manifest.json($ver) 版本不一致，先改 manifest 再打 tag"
+            exit 1
+          fi
+
+      - name: 发布 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            main.js
+            manifest.json
+            styles.css
+          generate_release_notes: true
+          body: |
+            ### 安装
+            把 `main.js`、`manifest.json`、`styles.css` 三个文件放进
+            `<你的库>/.obsidian/plugins/ai-english-help/`，然后在
+            设置 → 第三方插件 里刷新并启用。
+
+            需要先装 **Excalidraw** 插件；首次使用要在设置页填 DeepSeek API Key。

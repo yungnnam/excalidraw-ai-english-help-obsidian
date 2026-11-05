@@ -1,0 +1,29 @@
+{
+  "mode": "grammar",
+  "transcript": [{ "line": "I has a apple yesterday", "confidence": 0.93, "uncertain": ["apple"] }],
+  "detected_language": "en",
+  "rewrite": "I had an apple yesterday.",
+  "translation": "我昨天吃了一个苹果。",
+  "corrections": [
+    {
+      "original": "I has",
+      "corrected": "I had",
+      "type": "tense",
+      "rule": "一般过去时",
+      "why": "yesterday 指明是过去；主语 I 用 had，has 只用于第三人称单数。",
+      "level": "A2"
+    },
+    {
+      "original": "a apple",
+      "corrected": "an apple",
+      "type": "article",
+      "rule": "不定冠词 an",
+      "why": "apple 以元音音素开头，前面用 an。",
+      "level": "A1"
+    }
+  ],
+  "praise": "句子结构完整，时间状语用得很准。",
+  "score": { "grammar": 55, "vocab": 80, "naturalness": 65 },
+  "summary": "时态和冠词是这次的两个主要问题，其他都不错。",
+  "nextStep": "复习 have/has → had，以及 a/an 的选择。"
+}

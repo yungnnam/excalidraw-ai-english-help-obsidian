@@ -1,0 +1,25 @@
+# Obsidian 自己的配置：每个库都不一样，永远别提交
+.obsidian/
+data.json
+
+# 构建产物 / 打包产物
+dist/
+*.zip
+node_modules/
+
+# 预览与调试产物（都是脚本生成，能重新跑出来）
+preview.html
+dev/preview-model*.json
+dev/preview*.png
+dev/live-*.json
+dev/sample-*.png
+dev/handwriting.png
+__pycache__/
+*.pyc
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

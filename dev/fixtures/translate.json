@@ -1,0 +1,30 @@
+{
+  "mode": "translate",
+  "transcript": [{ "line": "这个方案在成本上不可行", "confidence": 0.99, "uncertain": [] }],
+  "versions": [
+    { "tier": "natural", "text": "This plan is not cost-effective.", "note": "最常用，开会时直接这么说。" },
+    {
+      "tier": "literal",
+      "text": "This plan is not feasible in terms of cost.",
+      "note": "保留「在…上」的结构，适合正式书面。"
+    },
+    {
+      "tier": "advanced",
+      "text": "The economics of this plan simply don't work.",
+      "note": "更地道，带一点否定语气。"
+    }
+  ],
+  "key_structures": [
+    { "pattern": "in terms of", "function": "就…而言", "example": "In terms of cost, we should wait." }
+  ],
+  "vocab": [
+    {
+      "word": "feasible",
+      "phonetic": "/ˈfiːzəbl/",
+      "pos": "adj.",
+      "meaning": "可行的",
+      "hint": "比 possible 更强调「实际能做成」"
+    }
+  ],
+  "pitfall": "别写成 It is not possible on cost，中文的「在…上」用 in terms of 更自然。"
+}

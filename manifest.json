@@ -1,0 +1,9 @@
+{
+  "id": "ai-english-help",
+  "name": "ai-english-help",
+  "version": "0.1.2",
+  "minAppVersion": "1.5.0",
+  "description": "Excalidraw 画布上的英语老师：框选手写或文字，AI 帮你拆词缀、批改语法、双向翻译，结果直接写回画布。",
+  "author": "q1611",
+  "isDesktopOnly": true
+}

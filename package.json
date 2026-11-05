@@ -1,0 +1,17 @@
+{
+  "name": "ai-english-help",
+  "version": "0.1.2",
+  "private": true,
+  "description": "Obsidian + Excalidraw plugin: AI 英语老师，框选手写就批改 / 拆词 / 翻译",
+  "scripts": {
+    "build": "node dev/build.mjs",
+    "test": "node dev/test.mjs",
+    "smoke": "node dev/smoke.mjs",
+    "preview": "node dev/preview.mjs",
+    "check": "node dev/build.mjs && node dev/test.mjs && node dev/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

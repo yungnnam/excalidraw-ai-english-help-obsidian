@@ -1,0 +1,32 @@
+{
+  "mode": "word",
+  "transcript": [{ "line": "ubiquitous", "confidence": 0.97, "uncertain": [] }],
+  "words": [
+    {
+      "headword": "ubiquitous",
+      "correct_spelling": "",
+      "phonetic_us": "/juːˈbɪkwɪtəs/",
+      "phonetic_uk": "/juːˈbɪkwɪtəs/",
+      "pos": "adj.",
+      "meaning": "无处不在的；普遍存在的",
+      "affix": {
+        "prefix": [{ "part": "ubique", "meaning": "到处（拉丁语）" }],
+        "root": [],
+        "suffix": [{ "part": "-ous", "meaning": "形容词后缀：充满…的" }],
+        "split": "ubiqu(e) + -ous",
+        "note": "源自拉丁语 ubique「到处」，17 世纪进入英语。"
+      },
+      "family": [
+        { "word": "ubiquity", "pos": "n.", "meaning": "普遍存在" },
+        { "word": "ubiquitously", "pos": "adv.", "meaning": "无处不在地" }
+      ],
+      "example": {
+        "text": "Smartphones have become ubiquitous in daily life.",
+        "translation": "智能手机在日常生活中已无处不在。"
+      },
+      "collocation": ["become ubiquitous", "ubiquitous presence", "almost ubiquitous"],
+      "memory": "ubi（哪里）+ que（都）= 哪里都有。"
+    }
+  ],
+  "unclear": []
+}
