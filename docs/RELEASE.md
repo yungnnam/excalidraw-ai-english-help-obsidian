@@ -66,6 +66,7 @@ node dev/build.mjs → node dev/test.mjs → node dev/smoke.mjs
 | 现象 | 原因 | 处理 |
 | --- | --- | --- |
 | Actions 红叉在「校验 tag 与 manifest 版本一致」 | tag 写成 `v0.1.2`，与 `manifest.json` 的 `0.1.2` 不等 | 删掉 Release 与 tag，重打 `0.1.2` |
+| 同一步骤失败且注解写 `Process completed with exit code 2` | 该步骤的 shell 脚本有语法错误（引号不配对、行尾 CRLF 等），不是版本真的不一致 | 修 `.github/workflows/release.yml` 后重新打 tag |
 | Release 已创建但 Assets 为空 | workflow 失败或仍在运行 | 打开 Actions 页看日志，修好后重新发布 |
 | `Resource not accessible by integration` | workflow 缺少 `permissions: contents: write` | 仓库 Settings → Actions → General → Workflow permissions 选 `Read and write` |
 

@@ -33,7 +33,7 @@ jobs:
       - name: 校验 tag 与 manifest 版本一致
         run: |
           tag="${GITHUB_REF#refs/tags/}"
-          ver=$(node -p "require('./manifest.json').version')
+          ver=$(node -p 'require("./manifest.json").version')
           echo "tag=$tag manifest=$ver"
           if [ "$tag" != "$ver" ]; then
             echo "::error::tag($tag) 和 manifest.json($ver) 版本不一致，先改 manifest 再打 tag"
