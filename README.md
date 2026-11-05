@@ -16,6 +16,8 @@ Obsidian 插件。在 Excalidraw 画布上框选手写或文本，经 DeepSeek �
 
 翻译方向在悬浮窗上切换（`⇄`），无需进入设置页。
 
+<img src="docs/images/word-card.png" width="48%"> <img src="docs/images/translate-card.png" width="48%">
+
 ## 工作原理
 
 单次请求完成识别与讲解，不经过 OCR：
@@ -48,7 +50,7 @@ Obsidian 插件。在 Excalidraw 画布上框选手写或文本，经 DeepSeek �
    （设置 → 第三方插件 → 已安装插件 → 「打开插件文件夹」可直接定位）
 3. 设置 → 第三方插件 → 刷新 → 启用 `ai-english-help`
 
-**BRAT**：添加 Beta 插件，填写 `<owner>/ai-english-help`。
+**BRAT**：添加 Beta 插件，填写 `yungnnam/excalidraw-ai-english-help-obsidian`。需已有 Release。
 
 安装后在插件设置页填入 API Key（<https://platform.deepseek.com/api_keys>），或设置环境变量 `DEEPSEEK_API_KEY`。
 
@@ -79,6 +81,8 @@ Obsidian 插件。在 Excalidraw 画布上框选手写或文本，经 DeepSeek �
 同一文本元素重复触发会替换其对应卡片。
 
 ### 悬浮窗
+
+![悬浮窗](docs/images/floatbar.png)
 
 - 拖动左侧 `⠿` 调整位置，位置写入设置
 - 仅在 Excalidraw 视图显示
