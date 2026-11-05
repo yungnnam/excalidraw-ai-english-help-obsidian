@@ -11,7 +11,7 @@
     "check": "node dev/build.mjs && node dev/test.mjs && node dev/smoke.mjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.11"
   },
   "license": "MIT"
 }

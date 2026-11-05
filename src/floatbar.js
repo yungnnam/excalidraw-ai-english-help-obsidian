@@ -165,7 +165,6 @@ export class FloatBar {
     this.el = bar;
     this.view = view;
     this._applyPosition();
-    console.log("[coach] 悬浮窗已挂载");
   }
 
   detach() {

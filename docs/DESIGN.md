@@ -149,7 +149,7 @@
 
 ```json
 {
-  "mode": "zh2en",
+  "mode": "translate",
   "transcript": [{"line": "这个方案在成本上不可行", "confidence": 0.97}],
   "versions": [
     {"label": "自然版", "en": "This approach is not feasible in terms of cost.", "note_zh": "书面口语都稳，最推荐"},
@@ -253,8 +253,8 @@ ubiquitous  adj.  /juːˈbɪkwɪtəs/                    原文   I has a apple 
 ## 7. 目录结构
 
 ```
-excalidraw-english-coach/
-  manifest.json                 # id: excalidraw-coach, isDesktopOnly: true
+ai-english-help/
+  manifest.json                 # id: ai-english-help, isDesktopOnly: true
   styles.css
   main.js                       # 构建产物
   src/
@@ -264,7 +264,7 @@ excalidraw-english-coach/
     modes/
       word.js                   # 🔤 prompt + render→blocks
       grammar.js                # 📝 prompt + render→blocks
-      zh2en.js                  # 🌉 prompt + render→blocks
+      translate.js              # 🌉 prompt + render→blocks
     engine.js                   # 取选区 → 导 PNG → 调 API → 缓存 → 返回结果
     ea.js                       # EA 封装：getEA / 选区外扩 / 导出 PNG / blob→base64
     deepseek.js                 # 请求、超时重试、parseJsonLoose、错误人话化
@@ -275,7 +275,7 @@ excalidraw-english-coach/
     build.mjs                   # src/*.js 拼接成 main.js（零依赖）
     test.mjs                    # layout/prompt/JSON 修复/哈希/registry 单测
     smoke.mjs                   # 假 obsidian 加载 main.js
-    fixtures/{word,grammar,zh2en}.json  # 录制的真实响应，离线测排版
+    fixtures/{word,grammar,translate}.json  # 录制的真实响应，离线测排版
   PLAN.md
 ```
 
@@ -286,12 +286,12 @@ excalidraw-english-coach/
 ### 8.1 模式注册表（`src/registry.js`）
 
 ```js
-import { word } from "./modes/word.js";
-import { grammar } from "./modes/grammar.js";
-import { zh2en } from "./modes/zh2en.js";
+import { wordMode } from "./modes/word.js";
+import { grammarMode } from "./modes/grammar.js";
+import { translateMode } from "./modes/translate.js";
 
-export const MODES = { word, grammar, zh2en };          // key = 模式 id
-export const MODE_LIST = [word, grammar, zh2en];        // 菜单顺序
+export const MODES = { word: wordMode, grammar: grammarMode, translate: translateMode };  // key = 模式 id
+export const MODE_ORDER = [wordMode, grammarMode, translateMode];                        // 菜单顺序
 
 // 每个 mode 的形状：
 // { id, label, icon, cmd, hotkeyHint, emoji, defaultTemp,
@@ -517,7 +517,7 @@ export async function renderCard(ea, bb, blocks, settings, meta) {
 - [ ] 本地缓存命中、手动归档到 Markdown、`customData` 溯源
 - [ ] 深浅主题适配、卡片样式微调
 - [ ] README（装法、key、快捷键、隐私说明）
-- [ ] 打包到 `.obsidian/plugins/excalidraw-coach/`，重载插件即可生效
+- [ ] 打包到 `.obsidian/plugins/ai-english-help/`，重载插件即可生效
 
 ---
 
@@ -592,7 +592,7 @@ const PROMPTS = {
 why_zh 必须点出规则名和原因，不能只说"更自然"。`,
 
   "🌉 中译英": `把图中中文译成英文。输出 JSON：
-{"mode":"zh2en","transcript":[{"line":"","confidence":0}],
+{"mode":"translate","transcript":[{"line":"","confidence":0}],
  "versions":[{"label":"自然版","en":"","note_zh":""},{"label":"直译","en":"","note_zh":""},{"label":"进阶","en":"","note_zh":""}],
  "key_structures":[{"en":"","function":"","example":""}],
  "vocab":[{"word":"","phonetic":"","pos":"","cn":"","hint_zh":""}],

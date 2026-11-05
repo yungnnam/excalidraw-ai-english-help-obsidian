@@ -115,7 +115,7 @@ try {
   throw new Error("[build] 产物语法错误：" + e.message);
 }
 
-console.log("✓ main.js  " + (text.length / 1024).toFixed(1) + " KB  (" + ORDER.length + " modules)");
+console.log("✓ main.js  " + (Buffer.byteLength(text, "utf8") / 1024).toFixed(1) + " KiB  (" + ORDER.length + " modules)");
 
 // 顺手打一份可直接拷进 vault 的 dist/
 const dist = path.join(ROOT, "dist");

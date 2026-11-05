@@ -13,6 +13,8 @@ function cacheHash(mode, settings, input) {
     mode.id,
     "pv" + PROMPT_VERSION,
     settings.model,
+    settings.baseUrl || "",
+    settings.deepThink ? "think" : "fast",
     settings.userLevel,
     (settings.nativeLang || "zh") + ">" + (settings.learnLang || "en") + ":" + (settings.translateDirection || "auto"),
     input.text || "",
@@ -186,10 +188,24 @@ async function runWithInput(plugin, mode, input, opts) {
 
 /**
  * 主流程：选中 → 导出 → 调模型 → 画卡片
+ * 带重入锁：连点两下只跑一次，避免重复计费和两张卡叠在一起
  * @param {object} plugin CoachPlugin
  * @param {string} modeId
  */
 export async function runCoach(plugin, modeId) {
+  if (plugin._busy) {
+    new Notice(t("noticeBusy", plugin.settings));
+    return;
+  }
+  plugin._busy = true;
+  try {
+    return await runCoachInner(plugin, modeId);
+  } finally {
+    plugin._busy = false;
+  }
+}
+
+async function runCoachInner(plugin, modeId) {
   const mode = getMode(modeId);
   if (!mode) { new Notice(t("noticeUnknownMode", plugin.settings, { v: modeId })); return; }
 

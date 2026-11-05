@@ -1,10 +1,4 @@
 /* 插件级样式（卡片本身画在画布上，这里只处理设置页和画布悬浮窗的小细节） */
-.excalidraw-coach-setting-desc {
-  color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.5;
-  margin-top: 4px;
-}
 
 /* ---------------- 画布悬浮窗 ---------------- */
 /* position: fixed 是相对窗口定位的，不会被画布的缩放/平移带着跑 */

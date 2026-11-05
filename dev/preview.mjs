@@ -65,7 +65,7 @@ const scenes = MODE_ORDER.map((mode) => {
 
 const html = `<!doctype html>
 <html lang="zh"><head><meta charset="utf-8">
-<title>Excalidraw AI 英语老师 · 卡片预览</title>
+<title>ai-english-help · 卡片预览</title>
 <style>
   :root { color-scheme: light; }
   body {

@@ -266,16 +266,21 @@ const STRINGS = {
     setClearCache: "清空缓存",
     noticeUnknownMode: "未知模式：{v}",
     noticeCardFail: "卡片画不出来：{v}",
-    noticeSettingsPath: "设置 → 第三方插件 → Excalidraw AI 英语老师",
+    noticeSettingsPath: "设置 → 第三方插件 → ai-english-help",
+    noticeNoKey: "还没有 API Key：填到{path}的「API Key」，或设环境变量 DEEPSEEK_API_KEY",
+    noticeBusy: "上一张卡还没画完，稍等一下",
     noticeBarShown: "悬浮窗已打开",
     noticeBarHidden: "悬浮窗已隐藏",
     noticeBarAttached: "悬浮窗已挂到当前画布",
     noticeBarNoView: "当前没有打开 Excalidraw 画布，切到画布再试",
     noticeDefaultMode: "默认模式：{v}",
+    menuSetDefault: "把「{v}」设为默认模式",
+    setDefaultMode: "设为默认模式",
     confirmTitle: "把这张图发给 DeepSeek？",
     confirmBody: "将发送 {n} 个元素的截图（只含你框选的部分）。",
     btnSend: "发送",
-    btnCancel: "取消",    setArchiveFolder: "归档目录",
+    btnCancel: "取消",
+    setArchiveFolder: "归档目录",
   },
   en: {
     modeWord: "Word Parts",
@@ -386,16 +391,21 @@ const STRINGS = {
     setClearCache: "Clear cache",
     noticeUnknownMode: "Unknown mode: {v}",
     noticeCardFail: "Could not draw the card: {v}",
-    noticeSettingsPath: "Settings → Community plugins → Excalidraw AI English Coach",
+    noticeSettingsPath: "Settings → Community plugins → ai-english-help",
+    noticeNoKey: "No API key yet — fill in “API Key” under {path}, or set DEEPSEEK_API_KEY",
+    noticeBusy: "The previous card is still in progress",
     noticeBarShown: "Floating bar shown",
     noticeBarHidden: "Floating bar hidden",
     noticeBarAttached: "Floating bar attached to this canvas",
     noticeBarNoView: "No Excalidraw canvas is open — switch to one and try again",
     noticeDefaultMode: "Default mode: {v}",
+    menuSetDefault: "Set “{v}” as default mode",
+    setDefaultMode: "Set as default mode",
     confirmTitle: "Send this image to DeepSeek?",
     confirmBody: "Sends a screenshot of {n} element(s) — only what you selected.",
     btnSend: "Send",
-    btnCancel: "Cancel",    setArchiveFolder: "Archive folder",
+    btnCancel: "Cancel",
+    setArchiveFolder: "Archive folder",
   },
 };
 
@@ -1497,6 +1507,7 @@ return { getEA, expandSelection, selectionToInput };
 // ===== src/deepseek.js =====
 __m["deepseek"] = (function () {
 const { envApiKey, humanizeHttp, parseJsonLoose, withTimeout } = __m["util"];
+const { t } = __m["i18n"];
 // DeepSeek 调用：重试、超时、错误人话化
 
 function resolveApiKey(settings) {
@@ -1511,7 +1522,7 @@ function isRetriable(status) {
 async function askDeepSeek({ settings, mode, system, userText, png }) {
   const key = resolveApiKey(settings);
   if (!key) {
-    throw new Error("还没填 DeepSeek API Key：设置 → Excalidraw AI 英语老师 → API Key");
+    throw new Error(t("noticeNoKey", settings, { path: t("noticeSettingsPath", settings) }));
   }
 
   const content = [{ type: "text", text: userText }];
@@ -1778,6 +1789,8 @@ function cacheHash(mode, settings, input) {
     mode.id,
     "pv" + PROMPT_VERSION,
     settings.model,
+    settings.baseUrl || "",
+    settings.deepThink ? "think" : "fast",
     settings.userLevel,
     (settings.nativeLang || "zh") + ">" + (settings.learnLang || "en") + ":" + (settings.translateDirection || "auto"),
     input.text || "",
@@ -1951,10 +1964,24 @@ async function runWithInput(plugin, mode, input, opts) {
 
 /**
  * 主流程：选中 → 导出 → 调模型 → 画卡片
+ * 带重入锁：连点两下只跑一次，避免重复计费和两张卡叠在一起
  * @param {object} plugin CoachPlugin
  * @param {string} modeId
  */
 async function runCoach(plugin, modeId) {
+  if (plugin._busy) {
+    new Notice(t("noticeBusy", plugin.settings));
+    return;
+  }
+  plugin._busy = true;
+  try {
+    return await runCoachInner(plugin, modeId);
+  } finally {
+    plugin._busy = false;
+  }
+}
+
+async function runCoachInner(plugin, modeId) {
   const mode = getMode(modeId);
   if (!mode) { new Notice(t("noticeUnknownMode", plugin.settings, { v: modeId })); return; }
 
@@ -2165,7 +2192,6 @@ class FloatBar {
     this.el = bar;
     this.view = view;
     this._applyPosition();
-    console.log("[coach] 悬浮窗已挂载");
   }
 
   detach() {
@@ -2421,15 +2447,19 @@ class CoachPlugin extends Plugin {
       );
     }
     menu.addSeparator();
+    const last = getMode(this.lastMode);
     menu.addItem((item) =>
       item
-        .setTitle("设为默认模式")
+        .setTitle(last
+          ? t("menuSetDefault", this.settings, { v: modeLabel(last, this.settings) })
+          : t("setDefaultMode", this.settings))
         .setIcon("star")
+        .setDisabled(!last)
         .onClick(async () => {
-          this.settings.defaultMode = this.lastMode;
+          if (!last) return;
+          this.settings.defaultMode = last.id;
           await this.saveSettings();
-          const m = getMode(this.lastMode);
-          new Notice(t("noticeDefaultMode", this.settings, { v: m ? modeLabel(m, this.settings) : this.lastMode }));
+          new Notice(t("noticeDefaultMode", this.settings, { v: modeLabel(last, this.settings) }));
         })
     );
 

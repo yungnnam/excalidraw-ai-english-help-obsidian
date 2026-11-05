@@ -53,9 +53,25 @@ class PluginSettingTab {
   hide() {}
 }
 
+const menuItems = [];
+class MenuItem {
+  setTitle(v) { this.title = v; return this; }
+  setIcon(v) { this.icon = v; return this; }
+  setDisabled(v) { this.disabled = !!v; return this; }
+  setChecked(v) { this.checked = !!v; return this; }
+  setSection() { return this; }
+  onClick(h) { this.handler = h; return this; }
+}
+
 class Menu {
   constructor() { this.items = []; }
-  addItem(cb) { cb({ setTitle: () => ({ setIcon: () => ({ onClick: (h) => ({}) }), onClick: (h) => ({}) }), setIcon: () => ({ setTitle: () => ({ onClick: () => ({}) }), onClick: () => ({}) }), onClick: () => ({}) }); return this; }
+  addItem(cb) {
+    const item = new MenuItem();
+    cb(item);
+    this.items.push(item);
+    menuItems.push(item);
+    return this;
+  }
   addSeparator() { return this; }
   showAtPosition() {}
   showAtMouseEvent() {}

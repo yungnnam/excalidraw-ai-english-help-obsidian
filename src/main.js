@@ -154,15 +154,19 @@ export default class CoachPlugin extends Plugin {
       );
     }
     menu.addSeparator();
+    const last = getMode(this.lastMode);
     menu.addItem((item) =>
       item
-        .setTitle("设为默认模式")
+        .setTitle(last
+          ? t("menuSetDefault", this.settings, { v: modeLabel(last, this.settings) })
+          : t("setDefaultMode", this.settings))
         .setIcon("star")
+        .setDisabled(!last)
         .onClick(async () => {
-          this.settings.defaultMode = this.lastMode;
+          if (!last) return;
+          this.settings.defaultMode = last.id;
           await this.saveSettings();
-          const m = getMode(this.lastMode);
-          new Notice(t("noticeDefaultMode", this.settings, { v: m ? modeLabel(m, this.settings) : this.lastMode }));
+          new Notice(t("noticeDefaultMode", this.settings, { v: modeLabel(last, this.settings) }));
         })
     );
 

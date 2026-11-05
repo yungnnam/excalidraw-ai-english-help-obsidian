@@ -1,5 +1,6 @@
 // DeepSeek 调用：重试、超时、错误人话化
 import { envApiKey, humanizeHttp, parseJsonLoose, withTimeout } from "./util.js";
+import { t } from "./i18n.js";
 
 export function resolveApiKey(settings) {
   const own = String((settings && settings.apiKey) || "").trim();
@@ -13,7 +14,7 @@ function isRetriable(status) {
 export async function askDeepSeek({ settings, mode, system, userText, png }) {
   const key = resolveApiKey(settings);
   if (!key) {
-    throw new Error("还没填 DeepSeek API Key：设置 → Excalidraw AI 英语老师 → API Key");
+    throw new Error(t("noticeNoKey", settings, { path: t("noticeSettingsPath", settings) }));
   }
 
   const content = [{ type: "text", text: userText }];
