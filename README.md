@@ -226,6 +226,8 @@ git tag 0.1.2 && git push origin 0.1.2
 
 tag 触发 `.github/workflows/release.yml`：执行构建与测试，校验 tag 与 `manifest.json` 版本一致，上传 `main.js`、`manifest.json`、`styles.css` 至 Release。
 
+完整流程（推送、发版、验证、多机安装）见 [docs/RELEASE.md](docs/RELEASE.md)。
+
 ## 许可
 
 [MIT](LICENSE)。AI 生成内容仅作参考，不应作为标准答案使用。
